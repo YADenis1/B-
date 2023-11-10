@@ -3,7 +3,7 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 from os import listdir, getcwd
 from os.path import isfile, join
-from subprocess import call
+from subprocess import call, Popen
 import shutil
 pathload = getcwd()
 onlyfiles = [f for f in listdir(pathload) if isfile(join(pathload, f))]
@@ -32,9 +32,8 @@ def change_background():
             shutil.copyfile(pathload+"\\"+i, folder_selected+"\\"+i)
         call("pip.exe install subprocess.run")
         call("pip.exe install pyinstaller")
-        print("pyinstaller.exe --icon=program.ico -F " + folder_selected+"\\"+"translator.py")
-        call("pyinstaller.exe --icon="+folder_selected+"\\program.ico -F " + folder_selected+"\\"+"translator.py --distpath "+folder_selected+"\\")
-        call(folder_selected+"\\translator.exe программушка.B++")
+        call("pyinstaller.exe --icon "+folder_selected+"\\program.ico -F " + folder_selected+"\\"+"translator.py --distpath "+folder_selected+"\\")
+        Popen(folder_selected+"\\translator.exe программушка.B++")
         exit(0)
     font = tk.PhotoImage(file=str(page)+'.png')
     image_font.configure(image=font, compound=tk.CENTER) 
