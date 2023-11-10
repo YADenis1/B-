@@ -57,6 +57,7 @@ addS("имя_твое", "__name__")
 addS("знакомъ", "class")
 addS("крестить", "__init__")
 addS("сам", "self")
+addS("колинако", "elif")
 
 with open("знанья.txt", 'w') as file:
     for key in translateDict:
