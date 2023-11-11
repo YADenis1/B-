@@ -1,58 +1,82 @@
+from ctypes.wintypes import SIZE
 import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk, Image
-from os import listdir, getcwd
-from os.path import isfile, join
-from subprocess import call, Popen
-import shutil
+from os import listdir, getcwd, name
+from subprocess import call
+from shutil import copyfile
+from tkextrafont import Font
+
 pathload = getcwd()
-onlyfiles = [f for f in listdir(pathload) if isfile(join(pathload, f))]
+onlyfiles = ["translator.py", "program.ico", "знанья.txt", "программушка.B++"]
 page = 0
 folder_selected = ""
+
+
+
+def create_msg_in_lbl(text):
+    for widget in lbl.winfo_children():
+        widget.destroy()
+    msg = tk.Label(lbl,text=text)
+    msg.config(font=('TriodPostnaja', 20),fg='#000')
+    msg.pack(fill="both")
+
+def delete_msg(parrent_widget):
+    for widget in parrent_widget.winfo_children():
+        widget.destroy()
+
+
 def choose_folder():
     global folder_selected, lbl
     folder_selected = filedialog.askdirectory()
-    lbl.delete(1.0, 'end')
-    lbl.insert("end", " Выбери путь становления Русовъ \n Выбранный путь >> " + folder_selected)
+    create_msg_in_lbl(" Выбранный путь >> " + folder_selected)
 def change_background():
     global page, image_font, font, root, lbl, button, folder_selected, button2
     if folder_selected == "":
         return 0
     page+=1
-    lbl.delete(1.0, 'end')
+    delete_msg(lbl)
     if page == 1:
-        lbl.insert(1.0, " Для сражения требуется установленный ящеръ!\n Убедись что ящеръ установленъ!")
+        create_msg_in_lbl("Для сражения требуется установленный ящеръ!\n Убедись что ящеръ установленъ!")
         button2.place_forget()
+        
     if page == 2:
-        button.configure(text="Завершить")
-        lbl.insert(1.0, "Помоги славянамъ одолеть злыхъ ящеровъ съ силой В++")
+        button.configure(text="Завершить", font=('TriodPostnaja', 14))
+        create_msg_in_lbl("Помоги славянамъ\n одолеть злыхъ ящеровъ съ силой В++")
+       
     if page == 3:
         for i in onlyfiles:
             print(pathload+"\\"+i, folder_selected)
-            shutil.copyfile(pathload+"\\"+i, folder_selected+"\\"+i)
+            copyfile(pathload+"\\"+i, folder_selected+"\\"+i)
         call("pip.exe install subprocess.run")
         call("pip.exe install pyinstaller")
-        call("pyinstaller.exe --icon "+folder_selected+"\\program.ico -F " + folder_selected+"\\"+"translator.py --distpath "+folder_selected+"\\")
-        Popen(folder_selected+"\\translator.exe программушка.B++")
+        print("pyinstaller.exe --icon program.ico -F " + folder_selected+"\\"+"translator.py --dist " + folder_selected)
+        call("pyinstaller.exe --icon program.ico -F " + folder_selected+"\\"+"translator.py --dist " + folder_selected)
         exit(0)
     font = tk.PhotoImage(file=str(page)+'.png')
-    image_font.configure(image=font, compound=tk.CENTER) 
+    image.configure(image=font, compound=tk.CENTER) 
+
+
 root = tk.Tk()
 root.geometry('800x600')
 root.resizable (width=False, height=False)
 
 font = tk.PhotoImage(file=str(page)+'.png')
-image_font = tk.Label(root, image=font, compound=tk.CENTER) 
-image_font.place(x=0, y=0)
+image = tk.Label(root, image=font, compound=tk.CENTER) 
+image.place(x=0, y=0)
 
-lbl = tk.Text(root, width = 100, height=5)
-lbl.insert(1.0, " Выбери путь становления Русовъ")
-lbl.place(x=0, y=492)
+lbl = tk.Frame(root)
+# lbl.insert(1.0, " Выбери путь становления Русовъ")
+lbl.config(background = 'white')
+lbl.place(anchor = "nw", x = 0, y = 490, width = 800, height = 100)
+create_msg_in_lbl("Выбери путь становления Русовъ")
+# lbl.tag_add("text_styles", "1.0", "end")
+# lbl.tag_configure("text_styles", font = main_font, )
 
-button2 = tk.Button(root, text='Выбрать путь', command=choose_folder, width=50)
-button2.place(x=215,y=575)
+button2 = tk.Button(root, text='Выбрать путь',font=('TriodPostnaja', 14), command=choose_folder)
+button2.place(x=0,y=560,width = 400)
 
-button = tk.Button(root, text='Далее', command=change_background, width=30)
-button.place(x=580,y=575)
+button = tk.Button(root, text='Далее',font=('TriodPostnaja', 14), command=change_background)
+button.place(x=400,y=560,width = 400)
 
 root.mainloop()

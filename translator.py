@@ -19,49 +19,13 @@ else:
 
 rusSimv = list("ёйцукенгшщзхъфывапролджэячсмитьбю") + list("ёйцукенгшщзхъфывапролджэячсмитьбю".upper())
 nerusSimv = ["'", '"']
-addS("молви", "print")
-addS("ведай", "input")
-addS("дробно", "float")
-addS("цело", "int")
-addS("строка", "str")
-addS("азъ", "char")
-addS("откель", "for")
-addS("пока", "while")
-addS("коли", "if")
-addS("боле", ">")
-addS("мене", "<")
-addS("отдай", "+=")
-addS("забери", "-=")
-addS("добавь", "+")
-addS("отбавь", "-")
-addS("значитъ", "=")
-addS("равно", "==")
-addS("равенъ", "==")
-addS("грамота", "math")
-addS("знай", "def")
-addS("изъ", "from")
-addS("спектръ", "range")
-addS("спектре", "range")
-addS("есть въ", "in")
-addS("есть", "in")
-addS("воздать", "return")
-addS("погибнуть", "exit")
-addS("инако", "else")
-addS("даболе", "and")
-addS("или", "or")
-addS("синусъ", "sin")
-addS("косинусъ", "cos")
-addS("царя_батюшку_главного", "main")
-addS("цар_батюшка_главный", "main")
-addS("имя_твое", "__name__")
-addS("знакомъ", "class")
-addS("крестить", "__init__")
-addS("сам", "self")
-addS("колинако", "elif")
-
+with open("знанья.txt", 'r') as file:
+    for i in file:
+        addS(i.split()[0], i.split()[1])
+    
 with open("знанья.txt", 'w') as file:
     for key in translateDict:
-        print(key + ">> " + translateDict[key], file=file)
+        print(key + " " + translateDict[key], file=file)
 data = []
 with open(pathtoPO, 'r', encoding="utf-8") as file:
     newVars = 0
